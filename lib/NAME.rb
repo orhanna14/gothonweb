@@ -1,0 +1,2 @@
+class NAME
+end
