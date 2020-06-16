@@ -57,15 +57,38 @@ RSpec.describe Map::Room, "#run" do
     expect(boss_room.go('back')).to eq(starting_room)
   end
 
-  it "successfully goes through the map" do
-    expect(Map::START.go('shoot!')).to eq(Map::GENERIC_DEATH)
-    expect(Map::START.go('dodge!')).to eq(Map::GENERIC_DEATH)
+  it "successfully goes through the paths at the central corridor" do
+    expect(Map::START.go('shoot!')).to eq(Map::SHOOT_DEATH)
+    expect(Map::START.go('dodge!')).to eq(Map::DODGE_DEATH)
 
     room = Map::START.go('tell a joke')
     expect(room).to eq(Map::LASER_WEAPON_ARMORY)
-
-    # complete this test by making it play the game
   end
+
+  it "successfully goes through the paths at the laser weapon armory" do
+    bridge = Map::LASER_WEAPON_ARMORY.go('0132')
+    death = Map::LASER_WEAPON_ARMORY.go('*')
+
+    expect(bridge).to eq(Map::THE_BRIDGE)
+    expect(death).to eq(Map::MELT_DEATH)
+  end
+
+  it "successfully goes through the paths for the bridge" do
+    death = Map::THE_BRIDGE.go('throw the bomb')
+    escape_pod = Map::THE_BRIDGE.go('slowly place the bomb')
+
+    expect(death).to eq(Map::BOMB_DEATH)
+    expect(escape_pod).to eq(Map::ESCAPE_POD)
+  end
+
+  it "successfully goes through the paths for the escape pod" do
+    winner = Map::ESCAPE_POD.go('2')
+    loser = Map::ESCAPE_POD.go('*')
+
+    expect(winner).to eq(Map::THE_END_WINNER)
+    expect(loser).to eq(Map::THE_END_LOSER)
+  end
+
 
   it "makes sure you can save and load rooms" do
     session = {}

@@ -3,6 +3,7 @@ ENV['APP_ENV'] = 'test'
 require './bin/app.rb'  # <-- your sinatra app
 require 'rspec'
 require 'rack/test'
+require 'spec_helper'
 
 RSpec.describe 'GothonWeb app' do
   include Rack::Test::Methods
@@ -11,21 +12,12 @@ RSpec.describe 'GothonWeb app' do
     Sinatra::Application
   end
 
-  it "says hello" do
+  it "the homepage redirects you to the game page" do
     get '/'
+    follow_redirect!
+
     expect(last_response).to be_ok
-    expect(last_response.body).to include('Hello there, Person!')
+    expect(last_response.body).to include('Central Corridor')
   end
 
-  it "prints out the form" do
-    get '/hello/'
-    expect(last_response).to be_ok
-    expect(last_response.body).to include('A Greeting')
-  end
-
-  it "accepts user input from the form" do
-    post '/hello/', params={:name => 'Olivia', :greeting => "Hi"}
-    expect(last_response).to be_ok
-    expect(last_response.body).to include('Hello there, Olivia!')
-  end
 end
