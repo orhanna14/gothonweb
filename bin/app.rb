@@ -10,14 +10,17 @@ set :session_secret, 'BADSECRET'
 
 get '/' do
   session[:room] = 'START'
+  session[:attempts] = 0
   redirect to('/game')
 end
 
 get '/game' do
   room = Map::load_room(session)
+  guess = params[:guess]
+  attempts = session[:attempts]
 
   if room
-    erb :show_room, :locals => {:room => room}
+    erb :show_room, :locals => {:room => room, :guess => guess, :attempts => attempts}
   else
     erb :you_died
   end
@@ -25,7 +28,11 @@ end
 
 post '/game' do
   room = Map::load_room(session)
+
   action = params[:action]
+  guess = params[:guess]
+  attempts = session[:attempts]
+  code = '123'
 
   if room
     next_room = room.go(action) || room.go("*")
@@ -34,7 +41,19 @@ post '/game' do
       Map::save_room(session, next_room)
     end
 
-    redirect to('/game')
+    if guess
+      if guess != code && attempts < 10
+        Map::update_attempts(session)
+        #Not updating the first wrong time
+        erb :show_room, :locals => {:room => room, :attempts => attempts, :guess => guess}
+      else
+       next_room = room.go(guess)
+       Map::save_room(session, next_room)
+       redirect to('/game')
+      end
+    else
+      redirect to('/game')
+    end
   else
     erb :you_died
   end

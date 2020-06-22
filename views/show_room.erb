@@ -9,7 +9,17 @@
 <% else %>
   <p>
   <form action="/game" method="POST">
-    - <input type="text" name="action"> <input type="SUBMIT">
+      <% if room.name == "Laser Weapon Armory" %>
+        <p>Keypad:<p>
+        <input type = "text" name="guess"> <input type = "SUBMIT">
+        <% if attempts > 0 %>
+          <p>BZZZZZEDDD!</p>
+          <p>You have tried <%= attempts %> times.</p>
+          <p>Your last guess was <%= guess %></p>
+        <% end %>
+      <% else %>
+      - <input type="text" name="action"> <input type="SUBMIT">
+      <% end %>
   </form>
   </p>
 <% end %>

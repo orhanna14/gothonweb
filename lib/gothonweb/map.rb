@@ -1,12 +1,13 @@
 module Map
 class Room
   # these make it easy to access the variables
-  attr_reader :name, :description, :paths
+  attr_reader :name, :description, :paths, :attempts
 
   def initialize(name, description)
     @name = name
     @description = description
     @paths = {}
+    @attempts = 0
   end
 
   def go(direction)
@@ -49,9 +50,8 @@ You stand up and run to the far side of the room and find the
 neutron bomb in its container.  There's a keypad lock on the box
 and you need the code to get the bomb out.  If you get the code
 wrong 10 times then the lock closes forever and you can't
-get the bomb.  The code is 3 digits.
+get the bomb. The code is 3 digits.
 """)
-
 
 THE_BRIDGE = Room.new("The Bridge",
 """
@@ -134,8 +134,8 @@ THE_BRIDGE.add_paths({
 })
 
 LASER_WEAPON_ARMORY.add_paths({
-  '0132' => THE_BRIDGE,
-  '*' => MELT_DEATH
+  '123' => THE_BRIDGE,
+  '*' => LASER_WEAPON_ARMORY
 })
 
 CENTRAL_CORRIDOR.add_paths({
@@ -169,4 +169,9 @@ def Map::save_room(session, room)
   # Store the room in the session for later, using its name
   session[:room] = ROOM_NAMES.key(room)
 end
+
+def Map::update_attempts(session)
+  session[:attempts] += 1
+end
+
 end
