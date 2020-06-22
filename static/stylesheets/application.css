@@ -1,0 +1,23 @@
+h1, form, pre {
+  text-align: center;
+}
+
+form, input {
+ font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+h1, pre {
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-optical-sizing: 20px;
+}
+
+h1 {
+  color: blueviolet;
+}
+
+pre {
+  color: goldenrod;
+  border: 10px solid transparent;
+  border-image: url(../images/border.png) 30 round;
+  padding: 5px;
+}
