@@ -66,11 +66,11 @@ RSpec.describe Map::Room, "#run" do
   end
 
   it "successfully goes through the paths at the laser weapon armory" do
-    bridge = Map::LASER_WEAPON_ARMORY.go('0132')
+    bridge = Map::LASER_WEAPON_ARMORY.go('123')
     death = Map::LASER_WEAPON_ARMORY.go('*')
 
     expect(bridge).to eq(Map::THE_BRIDGE)
-    expect(death).to eq(Map::MELT_DEATH)
+    expect(death).to eq(Map::LASER_WEAPON_ARMORY)
   end
 
   it "successfully goes through the paths for the bridge" do
