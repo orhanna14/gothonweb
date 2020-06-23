@@ -2,6 +2,8 @@ require 'sinatra'
 require "sinatra/activerecord"
 require './lib/gothonweb/map.rb'
 require './lib/gothonweb/maze_map.rb'
+require './lib/gothonweb/parser.rb'
+require './lib/gothonweb/lexicon.rb'
 require './models/user.rb'
 
 set :database, {adapter: "sqlite3", database: "gothonweb.sqlite3"}
@@ -109,12 +111,15 @@ post '/dungeon' do
   action = params[:action]
 
   if room
+    output = Lexicon.scan(action)
+    print output
     next_room = room.go(action) || room.go("*")
 
     if next_room
       MazeMap::save_room(session, next_room)
     end
     redirect to('/dungeon')
+
   else
     erb :dungeon_you_died
   end
