@@ -130,7 +130,8 @@ ESCAPE_POD.add_paths({
 
 THE_BRIDGE.add_paths({
   'throw the bomb' => BOMB_DEATH,
-  'slowly place the bomb' => ESCAPE_POD
+  'slowly place the bomb' => ESCAPE_POD,
+  '*' => THE_BRIDGE
 })
 
 LASER_WEAPON_ARMORY.add_paths({
@@ -141,7 +142,8 @@ LASER_WEAPON_ARMORY.add_paths({
 CENTRAL_CORRIDOR.add_paths({
   'shoot!' => SHOOT_DEATH,
   'dodge!' => DODGE_DEATH,
-  'tell a joke' => LASER_WEAPON_ARMORY
+  'tell a joke' => LASER_WEAPON_ARMORY,
+  '*' => CENTRAL_CORRIDOR
 })
 
 START = CENTRAL_CORRIDOR
