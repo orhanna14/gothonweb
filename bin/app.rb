@@ -1,6 +1,7 @@
 require 'sinatra'
 require "sinatra/activerecord"
 require './lib/gothonweb/map.rb'
+require './models/user.rb'
 
 set :database, {adapter: "sqlite3", database: "gothonweb.sqlite3"}
 set :port, 8080
@@ -13,16 +14,45 @@ set :session_secret, 'BADSECRET'
 get '/' do
   session[:room] = 'START'
   session[:attempts] = 0
-  redirect to('/game')
+  redirect to('/registrations/signup')
+end
+
+get '/registrations/signup' do
+  erb :signup
+end
+
+post '/registrations' do
+  @user = User.new(name: params["name"], email: params["email"], password: params["password"])
+  @user.save
+
+  session[:user_id] = @user.id
+  redirect '/game'
+end
+
+get '/sessions/login' do
+  erb :login
+end
+
+post '/sessions' do
+  @user = User.find_by(email: params["email"], password: params["password"])
+
+  session[:user_id] = @user.id
+  redirect '/game'
+end
+
+get '/sessions/logout' do
+  session.clear
+  redirect '/'
 end
 
 get '/game' do
   room = Map::load_room(session)
   guess = params[:guess]
   attempts = session[:attempts]
+  @user = User.find(session[:user_id]) || "Guest"
 
   if room
-    erb :show_room, :locals => {:room => room, :guess => guess, :attempts => attempts}
+    erb :show_room, :locals => {:room => room, :guess => guess, :attempts => attempts, :user => @user}
   else
     erb :you_died
   end
