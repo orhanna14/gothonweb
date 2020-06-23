@@ -12,12 +12,12 @@ RSpec.describe 'GothonWeb app' do
     Sinatra::Application
   end
 
-  it "the homepage redirects you to the game page" do
+  it "the homepage redirects you to the sign up page" do
     get '/'
     follow_redirect!
 
     expect(last_response).to be_ok
-    expect(last_response.body).to include('Central Corridor')
+    expect(last_response.body).to include('Welcome to Gothons From Planet Percal #25 -- The Web Game!')
   end
 
 end
