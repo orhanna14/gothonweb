@@ -1,4 +1,5 @@
-module Map
+module Map < Sinatra::Base
+  register Sinatra::ActiveRecordExtension
 class Room
   # these make it easy to access the variables
   attr_reader :name, :description, :paths, :attempts

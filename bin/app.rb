@@ -1,6 +1,8 @@
 require 'sinatra'
+require "sinatra/activerecord"
 require './lib/gothonweb/map.rb'
 
+set :database, {adapter: "sqlite3", database: "gothonweb.sqlite3"}
 set :port, 8080
 set :static, true
 set :public_folder, "static"
