@@ -17,7 +17,7 @@ RSpec.describe 'GothonWeb app' do
     follow_redirect!
 
     expect(last_response).to be_ok
-    expect(last_response.body).to include('Welcome to Gothons From Planet Percal #25 -- The Web Game!')
+    expect(last_response.body).to include('Welcome to an Awesome Web Game! You choose your adventure: Gothons From Planet Percal #25 or Dungeon Maze')
   end
 
 end

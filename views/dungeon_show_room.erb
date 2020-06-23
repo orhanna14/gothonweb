@@ -1,0 +1,19 @@
+
+<h1> Welcome to <%= room.name %></h1>
+
+<pre>
+<%= room.description %>
+</pre>
+
+<% if room.name == "death" || room.name == "The End" %>
+  <p><a href="/">Play Again?</a></p>
+<% else %>
+  <p>
+  <form action="/dungeon" method="POST">
+      - <input type="text" name="action" autofocus> <input type="SUBMIT">
+  </form>
+  </p>
+  <p>Hint?
+    <%= room.paths.keys %>
+  </p>
+<% end %>

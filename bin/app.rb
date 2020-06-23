@@ -1,6 +1,7 @@
 require 'sinatra'
 require "sinatra/activerecord"
 require './lib/gothonweb/map.rb'
+require './lib/gothonweb/maze_map.rb'
 require './models/user.rb'
 
 set :database, {adapter: "sqlite3", database: "gothonweb.sqlite3"}
@@ -88,6 +89,34 @@ post '/game' do
     end
   else
     erb :you_died
+  end
+end
+
+get '/dungeon' do
+  room = MazeMap::load_room(session)
+  @user = "Guest"
+
+  if room
+    erb :dungeon_show_room, :locals => {:room => room, :user => @user}
+  else
+    erb :dungeon_you_died
+  end
+end
+
+post '/dungeon' do
+  room = MazeMap::load_room(session)
+
+  action = params[:action]
+
+  if room
+    next_room = room.go(action) || room.go("*")
+
+    if next_room
+      MazeMap::save_room(session, next_room)
+    end
+    redirect to('/dungeon')
+  else
+    erb :dungeon_you_died
   end
 end
 

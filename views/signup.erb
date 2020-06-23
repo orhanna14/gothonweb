@@ -1,6 +1,7 @@
-<h1>Welcome to Gothons From Planet Percal #25 -- The Web Game!</h1>
+<h1>Welcome to an Awesome Web Game! You choose your adventure: Gothons From Planet Percal #25 or Dungeon Maze</h1>
  <% if @user == nil %> 
-  <h4>Please sign up or log in to continue</h4>
+  <a href="/dungeon">Try Dungeon Maze</a>
+  <h4>Please sign up or log in to play Gothons From Planet Percal #25 </h4>
 
 <a href="/sessions/login">Log in</a>
 
@@ -11,5 +12,5 @@
     <input type = "SUBMIT">
   </form>
   <% else %>
-    <a href="/game">Play now!</a>
+    <a href="/game">Gothons From Planet Percal #25</a>
 <% end %>
