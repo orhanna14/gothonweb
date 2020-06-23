@@ -101,7 +101,7 @@ get '/dungeon' do
   if room
     erb :dungeon_show_room, :locals => {:room => room, :user => @user}
   else
-    erb :dungeon_you_died
+    erb :dungeon_you_died, :locals => {:output => output}
   end
 end
 
