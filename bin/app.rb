@@ -101,18 +101,16 @@ get '/dungeon' do
   if room
     erb :dungeon_show_room, :locals => {:room => room, :user => @user}
   else
-    erb :dungeon_you_died, :locals => {:output => output}
+    erb :dungeon_you_died
   end
 end
 
 post '/dungeon' do
   room = MazeMap::load_room(session)
-
   action = params[:action]
 
   if room
     output = Lexicon.scan(action)
-    print output
     next_room = room.go(action) || room.go("*")
 
     if next_room
